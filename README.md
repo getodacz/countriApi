@@ -127,10 +127,13 @@ FirstName: Julia, LastName: Martinez, Email: julia.martinez@example.com, Passwor
 Note: Once authenticated with email/password, the authentication endpoint will return a JWT token that can be used to access any private endpoint.
 
 - Actuator endpoints (allowed for authenticated users only)
+
+```
   https://localhost:8443/actuator/health
   https://localhost:8443/actuator/info
   https://localhost:8443/actuator/metrics
-```http request
+```
+
 ### Get countries from 2 continents (public endpoint)
 GET https://localhost:8443/api/v1/public/countries/CA,US,RO,IT,MD,AD,AF,CL,CN,AR,BR,MX
 Content-Type: application/json
