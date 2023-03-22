@@ -1,4 +1,4 @@
-# Spring Boot Application with JWT Authentication and Authorization
+# Spring Boot REST API Application with JWT Authentication, Docker, PostgreSQL, Flyway
 
 This is a Spring Boot application that uses JSON Web Tokens (JWT) for authentication and authorization of API endpoints. It includes a SecurityConfiguration class that configures Spring Security to secure the application's endpoints based on the provided rules.
 
