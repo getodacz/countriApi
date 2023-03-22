@@ -1,0 +1,83 @@
+# Spring Boot REST API endpoints
+
+### Should authenticate 1st user: Emily Johnson and return a JWT token
+POST https://localhost:8443/api/v1/auth/authenticate
+Content-Type: application/json
+
+{
+  "email": "emily.johnson@example.com",
+  "password": "Zd3k9XsT"
+}
+
+### Should authenticate 2nd user: Carlos Rodriguez and return a JWT token
+POST https://localhost:8443/api/v1/auth/authenticate
+Content-Type: application/json
+
+{
+  "email": "carlos.rodriguez@example.com",
+  "password": "Hg7fDp2R"
+}
+
+### Should authenticate 3rd user: Samantha Lee and return a JWT token
+POST https://localhost:8443/api/v1/auth/authenticate
+Content-Type: application/json
+
+{
+  "email": "samantha.lee@example.com",
+  "password": "Lk6tGh9Q"
+}
+
+### Should authenticate 4th user: Daniel Kim and return a JWT token
+POST https://localhost:8443/api/v1/auth/authenticate
+Content-Type: application/json
+
+{
+  "email": "daniel.kim@example.com",
+  "password": "Vb4rJf8W"
+}
+
+### Should authenticate 5th user: Julia Martinez and return a JWT token
+POST https://localhost:8443/api/v1/auth/authenticate
+Content-Type: application/json
+
+{
+  "email": "julia.martinez@example.com",
+  "password": "Nm5dRs7Z"
+}
+
+### More complex test case with countries from 4 different continents (public endpoint)
+GET https://localhost:8443/api/v1/public/countries/CA,US,RO,IT,MD,AD,AF,CL,CN,AR,BR,MX
+Content-Type: application/json
+
+
+### Error test case using only invalid countries
+GET https://localhost:8443/api/v1/public/countries/YY,ZZ,11,22
+Content-Type: application/json
+
+### Error test case using both valid and invalid countries (only the valid ones are processed)
+GET https://localhost:8443/api/v1/public/countries/IT ,ZZ
+Content-Type: application/json
+
+### Error test case using valid country codes with incorrect formatting
+GET https://localhost:8443/api/v1/public/countries/IT , ca ,uS
+Content-Type: application/json
+
+### Should allow access to private endpoint for authenticated users (get a refreshed token once this one expires)
+GET https://localhost:8443/api/v1/private/countries/CA,US,RO,IT,MD,AD,AF,CL,CN,AR,BR,MX
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlbWlseS5qb2huc29uQGV4YW1wbGUuY29tIiwiaWF0IjoxNjc5NDY1NTQ2LCJleHAiOjE2Nzk0NjczNDZ9.7_9M2YPTnbFG9DIUiVlBEYcjofQD7w4PYqiKKLJVti0
+
+{
+  "email": "emily.johnson@example.com",
+  "password": "Zd3k9XsT"
+}
+
+### Should allow access to actuator for authenticated users (get a refreshed token once this one expires)
+GET https://localhost:8443/actuator/health
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlbWlseS5qb2huc29uQGV4YW1wbGUuY29tIiwiaWF0IjoxNjc5NDY1NTQ2LCJleHAiOjE2Nzk0NjczNDZ9.7_9M2YPTnbFG9DIUiVlBEYcjofQD7w4PYqiKKLJVti0
+
+{
+  "email": "emily.johnson@example.com",
+  "password": "Zd3k9XsT"
+}

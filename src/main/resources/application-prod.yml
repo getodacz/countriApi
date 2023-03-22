@@ -1,0 +1,15 @@
+spring:
+  jpa:
+    show-sql: false
+
+logging:
+  level:
+    root: WARN
+
+server:
+  ssl:
+    key-alias: countryApi
+    key-store: classpath:countryApi.p12
+    key-store-password: Api3543534!
+    key-store-type: PKCS12
+    enabled: true

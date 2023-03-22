@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  app:
+#    image: 'country-api-app'
+#    container_name: 'country-api-app-container'
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        JAR_FILE: build/libs/*.jar
+    ports:
+      - 8443:8443
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres?currentSchema=country_api
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=p123321!
+      - SPRING_PROFILES_ACTIVE=prod
+      - SERVER_PORT=8443
+      - SERVER_SSL_KEY_STORE=/keystore.p12
+      - SERVER_SSL_KEY_STORE_PASSWORD=Api3543534!
+      - SERVER_SSL_KEY_STORE_TYPE=PKCS12
+      - SERVER_SSL_KEY_ALIAS=countryApi
+    volumes:
+      - ./src/main/resources/keystore.p12:/keystore.p12
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:13-alpine
+    restart: always
+#    container_name: 'country-api-db-postgres-container'
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=p123321!

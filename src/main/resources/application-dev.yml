@@ -1,0 +1,24 @@
+spring:
+  jpa:
+    show-sql: true
+#    datasource:
+#    url: jdbc:postgresql://localhost:5432/postgres
+#    username: postgres
+#    password: tep1
+logging:
+  level:
+    root: INFO
+
+resilience4j:
+  ratelimiter:
+    instances:
+      nonAuthCountryDataRateLimiter:
+        limit-for-period: 5
+        limit-refresh-period: 20s
+      authCountryDataRateLimiter:
+        limit-for-period: 5
+        limit-refresh-period: 20s
+
+#    url: jdbc:postgresql://localhost:5432/postgres
+#    username: postgres
+#    password: tep1
