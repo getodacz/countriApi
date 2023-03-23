@@ -79,6 +79,10 @@ GET https://localhost:8443/api/v1/public/countries/IT,CA,US
     }
 ]
 ```
+
+## Spring Boot and Java Versions
+This project uses the latest stable Spring Boot version 3.0.4 and Java 17
+
 ## Endpoints
 - Main public endpoint to get the list of continents and countries
   GET https://localhost:8443/api/v1/public/countries/CA,US,IT
