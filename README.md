@@ -15,8 +15,11 @@ The "docker-compose up" command will start the following containers:
 - A Postgres database container
 
 ## Bonus Task
-The application bonus task has been implemented with a rate limiter that limits the number of requests per second for unauthenticated users and authenticated users. 
-The rate limit is configured in the application-prod.yml file.
+The application bonus task has been implemented using a rate limiter library called **"Resilience4j"** that allows us to configure limits for the number of requests per second for unauthenticated users and authenticated users.
+
+**Resilience4j** is a lightweight fault tolerance library that provides a variety of fault tolerance and stability patterns to a REST api or web application.
+
+The required rate limit is configured in the application-prod.yml file:
 ```
 For authenticated users rate limit = 20 requests per sec:
 resilience4j.ratelimiter.instances.nonAuthCountryDataRateLimiter.limitForPeriod=5
@@ -81,7 +84,7 @@ GET https://localhost:8443/api/v1/public/countries/IT,CA,US
 ```
 
 ## Spring Boot and Java Versions
-This project uses the latest stable Spring Boot version 3.0.4 and Java 17
+This project uses the latest stable **Spring Boot version 3.0.4** and **Java 17**
 
 ## Endpoints
 - Main public endpoint to get the list of continents and countries
@@ -148,7 +151,7 @@ Sample:
 GET https://localhost:8443/api/v1/public/countries/CA,US,RO,IT,MD,AD,AF,CL,CN,AR,BR,MX
 Content-Type: application/json
 ```
-The apiRequests-prod.https is in the src/main/resources/apiRequests location.
+The **apiRequests-prod.https** is in the src/main/resources/apiRequests location.
 There is also a dev version which uses the http protocol on port 8080 instead of https on port 8443
 which can be used for local tests with an IDE like Intellij
 
@@ -164,14 +167,12 @@ The logs are configured as per below requirements:
 
 The log configuration is done in application-prod.yaml and customized using profiles.
 
-
 ## Postgress Database
-When the application is started in docker.
-It will create a docker container for a Postgres database.
-The database contains the data for all the countries and continents obtained 
-from the following URL: https://countries.trevorblades.com/graphql
+When the application is started by in docker, a docker container for a Postgres database will be created.
+The database is created and populated at the initial launch of the application from a Flyway script containing data for all the countries and continents.
+All the initial population data has been obtained from the following URL: https://countries.trevorblades.com/graphql in a preliminary step in the application development process. Also, 5 test users are inserted at this state in the databae, they are used for the authenticated endpoints.
 
-The application creates the data in a new schema called "country_api" and the tables are named 
+The application creates the data in a new schema called "country_api" and the tables are named as below:
 - continent
 - country
 - api-user
@@ -194,9 +195,11 @@ The following Flyway migrations are implemented in the application:
     
 ## Generators
 The following generators are implemented - as tests in the "generators" package
-1. Flyway migration generator
+### Flyway migration generator
+```
    class: FlywayMigrationScriptGeneratorTest
    generator method:   generateFlywayMigrationData
+```
 When executed, this generator test will print to the console the SQL statements for creating Flyway migration script with the latest data from  https://countries.trevorblades.com/graphql
 Sample output:
 ```sql
@@ -218,12 +221,15 @@ insert into country(code, name, continent_code) values ('BJ','Benin','AF');
 This tool was created for being able to refresh the API data periodically with ease.
 
 To refresh, just capture the output of this generator and paste it in a new V4__Populate_Data.sql file.
-2. JWT key generator
+
+### JWT key generator
+```
    class: JwtSecretKeyGeneratorTest
    generator method:   generateSecretKey
+```
 
 This tool was designed to be able to periodically refresh the JWT secret key.
-The current JWT secret key is stored in the application-prod.yaml file:
+The current JWT secret key is stored in the application-prod.yaml file for the following key:
 ```yaml
 jwtToken:
   secret-key
@@ -240,6 +246,7 @@ These statements were added manually in the V3__Populate_Data.sql file.
 When the application is starts, the Flyway migrations will be executed by the spring boot application and the database will be created and populated using the V3__Populate_Data.sql file
 
 ## Updating with the latest source data using the GraphQL query and the https://countries.trevorblades.com/graphql API
+
 To refresh the data, run the generateFlywayMigrationData generator method explained above in the "Generators" section
 This generator calls the GraphQL endpoint and generates the SQL statements for populating the latest data to the database.
 
